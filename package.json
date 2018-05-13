@@ -1,0 +1,22 @@
+{
+  "name": "nqueen",
+  "version": "1.0.0",
+  "description": "n-queens problem solution",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ikovic/nqueen.git"
+  },
+  "keywords": [
+    "n-queens"
+  ],
+  "author": "Ivan Kovic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ikovic/nqueen/issues"
+  },
+  "homepage": "https://github.com/ikovic/nqueen#readme"
+}
