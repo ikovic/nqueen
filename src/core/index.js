@@ -1,4 +1,4 @@
-const getInitialBoard = function getInitialBoard(boardSize, { x, y }) {
+function getInitialBoard(boardSize, { x, y }) {
   const board = [];
 
   for (let rowIdx = 0; rowIdx < boardSize; rowIdx++) {
@@ -9,9 +9,9 @@ const getInitialBoard = function getInitialBoard(boardSize, { x, y }) {
   }
 
   return board;
-};
+}
 
-const isQueenSafe = function isQueenSafe(board, { x, y }) {
+function isQueenSafe(board, { x, y }) {
   const boardSize = board.length;
   //checking if there is a queen in row or column
   for (let k = 0; k < boardSize; k++) {
@@ -30,7 +30,7 @@ const isQueenSafe = function isQueenSafe(board, { x, y }) {
     }
   }
   return true;
-};
+}
 
 const solveQueensProblem = function solveQueensProblem(board, nOfQueens) {
   const boardSize = board.length;
@@ -46,9 +46,8 @@ const solveQueensProblem = function solveQueensProblem(board, nOfQueens) {
         const nextStep = solveQueensProblem(board, nOfQueens - 1);
         if (nextStep) {
           return board;
-        } else {
-          board[rowIdx][colIdx] = 0;
         }
+        board[rowIdx][colIdx] = 0;
       }
     }
   }
@@ -56,4 +55,10 @@ const solveQueensProblem = function solveQueensProblem(board, nOfQueens) {
   return false;
 };
 
-export { getInitialBoard, solveQueensProblem };
+function getSolver(boardSize, { x, y }) {
+  const board = getInitialBoard(boardSize, { x, y });
+
+  return () => solveQueensProblem(board, boardSize - 1);
+}
+
+export default getSolver;
