@@ -2,8 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { getInitialBoard } from './core';
+import { getInitialBoard, solveQueensProblem } from './core';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
-console.log(getInitialBoard(8, { x: 4, y: 2 }));
+const board = getInitialBoard(8, { x: 4, y: 3 });
+const results = solveQueensProblem(board, 7);
+console.log('end', results);
