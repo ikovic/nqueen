@@ -32,33 +32,36 @@ function isQueenSafe(board, { x, y }) {
   return true;
 }
 
-const solveQueensProblem = function solveQueensProblem(board, nOfQueens) {
-  const boardSize = board.length;
+function getSolver(boardSize, { x, y }, channel) {
+  const initialBoard = getInitialBoard(boardSize, { x, y });
 
-  if (nOfQueens === 0) {
-    return board;
-  }
+  function solveQueensProblem(board, nOfQueens) {
+    const boardSize = board.length;
 
-  for (let rowIdx = 0; rowIdx < boardSize; rowIdx++) {
-    for (let colIdx = 0; colIdx < boardSize; colIdx++) {
-      if (isQueenSafe(board, { x: rowIdx, y: colIdx }) && !board[rowIdx][colIdx]) {
-        board[rowIdx][colIdx] = nOfQueens;
-        const nextStep = solveQueensProblem(board, nOfQueens - 1);
-        if (nextStep) {
-          return board;
+    if (nOfQueens === 0) {
+      channel.publish('done', { board });
+      return board;
+    }
+
+    for (let rowIdx = 0; rowIdx < boardSize; rowIdx++) {
+      for (let colIdx = 0; colIdx < boardSize; colIdx++) {
+        if (isQueenSafe(board, { x: rowIdx, y: colIdx }) && !board[rowIdx][colIdx]) {
+          board[rowIdx][colIdx] = nOfQueens;
+          const nextStep = solveQueensProblem(board, nOfQueens - 1);
+          if (nextStep) {
+            channel.publish('step', { board: nextStep });
+            return board;
+          }
+          board[rowIdx][colIdx] = 0;
+          channel.publish('backtrack', { board });
         }
-        board[rowIdx][colIdx] = 0;
       }
     }
+
+    return false;
   }
 
-  return false;
-};
-
-function getSolver(boardSize, { x, y }) {
-  const board = getInitialBoard(boardSize, { x, y });
-
-  return () => solveQueensProblem(board, boardSize - 1);
+  return () => solveQueensProblem(initialBoard, boardSize - 1);
 }
 
 export default getSolver;
